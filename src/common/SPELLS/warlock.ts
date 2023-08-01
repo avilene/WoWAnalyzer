@@ -509,6 +509,12 @@ const spells = {
     name: 'Overhead Assault',
     icon: 'warrior_talent_icon_mastercleaver',
   },
+  // summoned via Guldan's Ambition
+  GULDANS_AMBITION_PIT_LORD: {
+    id: 387590,
+    name: "Gul'Dan's Ambition",
+    icon: 'achievement_dungeon_outland_dungeonmaster',
+  },
 
   // Demonology talents
   BILESCOURGE_BOMBERS_DAMAGE: {

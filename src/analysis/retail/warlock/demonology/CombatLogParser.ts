@@ -33,6 +33,7 @@ import TheHoundmastersStratagem from './modules/talents/TheHoundmastersStratagem
 import GrimoireFelguard from './modules/talents/GrimoireFelguard';
 import InnerDemons from './modules/talents/InnerDemons';
 import NetherPortal from './modules/talents/NetherPortal';
+import GuldansAmbition from './modules/talents/GuldansAmbition';
 import PowerSiphonNormalizer from './modules/talents/normalizers/PowerSiphonNormalizer';
 import PowerSiphon from './modules/talents/PowerSiphon';
 import SacrificedSouls from './modules/talents/SacrificedSouls';
@@ -91,6 +92,7 @@ class CombatLogParser extends CoreCombatLogParser {
     netherPortal: NetherPortal,
     shadowsBite: ShadowsBite,
     dreadCalling: DreadCalling,
+    guldansAmbition: GuldansAmbition,
 
     // Items
     vaultOfTheIncarnates4Set: DemonologyWarlockVaultOfTheIncarnates4Set,
