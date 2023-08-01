@@ -150,6 +150,11 @@ const spells = {
     name: 'Demonic Circle Teleport',
     icon: 'spell_shadow_demoniccircleteleport',
   },
+  INQUISITORS_GAZE_DAMAGE: {
+    id: 400185,
+    name: 'Fel Barrage',
+    icon: 'ability_felarakkoa_feldetonation_green',
+  },
 
   // Permanent pet damage abilities
   IMP_FIREBOLT: {

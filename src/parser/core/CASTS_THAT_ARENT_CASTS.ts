@@ -1,6 +1,6 @@
 import ITEMS from 'common/ITEMS';
 import SPELLS from 'common/SPELLS';
-import { TALENTS_SHAMAN } from 'common/TALENTS';
+import { TALENTS_SHAMAN, TALENTS_WARLOCK } from 'common/TALENTS';
 
 const spells: number[] = [
   /**
@@ -81,6 +81,11 @@ const spells: number[] = [
   SPELLS.RAMPAGE_4.id,
   SPELLS.HACK_AND_SLASH.id,
   SPELLS.WRATH_AND_FURY.id,
+  //endregion
+
+  //region warlock
+  TALENTS_WARLOCK.SOULBURN_TALENT.id,
+  SPELLS.INQUISITORS_GAZE_DAMAGE.id,
   //endregion
 
   //region trinket
