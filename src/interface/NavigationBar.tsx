@@ -74,13 +74,17 @@ const NavigationBar = ({ children, ...others }: Props) => {
           </div>
         </Tooltip>
         <div className="menu-item required">
-          {user && user.premium ? (
+          {user ? (
             <Tooltip
               content={
-                <Trans id="interface.layout.navigationBar.premiumActive">Premium active</Trans>
+                user.premium ? (
+                  <Trans id="interface.layout.navigationBar.premiumActive">Premium active</Trans>
+                ) : (
+                  <Trans id="interface.layout.navigationBar.account">Account</Trans>
+                )
               }
             >
-              <Link to="/premium">
+              <Link to="/user">
                 <PremiumIcon /> <span className="optional">{user.name}</span>
               </Link>
             </Tooltip>

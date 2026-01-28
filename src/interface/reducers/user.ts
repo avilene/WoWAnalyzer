@@ -57,6 +57,57 @@ export const logout = createAsyncThunk('user/logout', async () => {
   return;
 });
 
+// Link account actions (these trigger OAuth flows, similar to login)
+// These are simple functions, not async thunks since they redirect
+export function linkPatreon() {
+  window.location.href = `${import.meta.env.VITE_SERVER_BASE}link/patreon`;
+}
+
+export function linkGitHub() {
+  window.location.href = `${import.meta.env.VITE_SERVER_BASE}link/github`;
+}
+
+// Unlink account actions (API calls that refresh user state)
+export const unlinkPatreon = createAsyncThunk<User>('user/unlinkPatreon', async () => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_BASE}unlink/patreon`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to unlink Patreon');
+    }
+    return (await response.json()) satisfies User;
+  } catch (err: unknown) {
+    captureException(err, {
+      extra: {
+        location: 'user/unlinkPatreon',
+      },
+    });
+    throw err;
+  }
+});
+
+export const unlinkGitHub = createAsyncThunk<User>('user/unlinkGitHub', async () => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_BASE}unlink/github`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to unlink GitHub');
+    }
+    return (await response.json()) satisfies User;
+  } catch (err: unknown) {
+    captureException(err, {
+      extra: {
+        location: 'user/unlinkGitHub',
+      },
+    });
+    throw err;
+  }
+});
+
 type UserState = User | null;
 const initialState: UserState = null as UserState;
 
@@ -73,6 +124,12 @@ const userSlice = createSlice({
     });
     builder.addCase(logout.fulfilled, () => {
       return null;
+    });
+    builder.addCase(unlinkPatreon.fulfilled, (state, action) => {
+      return action.payload; // Updated user from backend
+    });
+    builder.addCase(unlinkGitHub.fulfilled, (state, action) => {
+      return action.payload; // Updated user from backend
     });
   },
 });

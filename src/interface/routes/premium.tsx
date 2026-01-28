@@ -1,4 +1,5 @@
 import { t, Trans } from '@lingui/macro';
+import { Link } from 'react-router-dom';
 import DocumentTitle from 'interface/DocumentTitle';
 import GitHubButton from 'interface/GitHubButton';
 import DiscordIcon from 'interface/icons/DiscordTiny';
@@ -6,14 +7,13 @@ import PremiumIcon from 'interface/icons/Premium';
 import ViralContentIcon from 'interface/icons/ViralContent';
 import WebBannerIcon from 'interface/icons/WebBanner';
 import PatreonButton from 'interface/PatreonButton';
+import { WarcraftLogsIcon } from 'interface/icons';
 import { getUser } from 'interface/selectors/user';
 import { TooltipElement } from 'interface/Tooltip';
 import { useWaSelector } from 'interface/utils/useWaSelector';
 import { usePageView } from 'interface/useGoogleAnalytics';
 
 import './premium.scss';
-
-import LoginPanel from '../PremiumLoginPanel';
 
 export function Component() {
   usePageView('Premium');
@@ -24,7 +24,57 @@ export function Component() {
       <DocumentTitle title="Premium" />
       <div className="premium row">
         <div className="col-md-4 col-sm-5">
-          <LoginPanel />
+          {!user ? (
+            <div className="panel">
+              <div className="panel-heading">
+                <h2>
+                  <Trans id="interface.premiumPage.signIn">Sign In</Trans>
+                </h2>
+              </div>
+              <div className="panel-body">
+                <p>
+                  <Trans id="interface.premiumPage.signInDescription">
+                    Sign in with your Warcraft Logs account to access premium features and link
+                    other accounts.
+                  </Trans>
+                </p>
+                <a
+                  href={`${import.meta.env.VITE_SERVER_BASE}login/wcl`}
+                  className="btn btn-block wcl-login"
+                >
+                  <WarcraftLogsIcon style={{ border: '0px' }} /> Warcraft Logs
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className="panel">
+              <div className="panel-heading">
+                <h2>
+                  <Trans id="interface.premiumPage.yourAccount">Your Account</Trans>
+                </h2>
+              </div>
+              <div className="panel-body">
+                <div style={{ marginBottom: 15 }}>
+                  <strong>{user.name}</strong>
+                </div>
+                <div style={{ marginBottom: 15 }}>
+                  {user.premium ? (
+                    <span className="text-success">
+                      <PremiumIcon />{' '}
+                      <Trans id="interface.premiumPage.premiumActive">Premium Active</Trans>
+                    </span>
+                  ) : (
+                    <span className="text-muted">
+                      <Trans id="interface.premiumPage.premiumInactive">Premium Inactive</Trans>
+                    </span>
+                  )}
+                </div>
+                <Link to="/user" className="btn btn-primary btn-block">
+                  <Trans id="interface.premiumPage.manageAccount">Manage Account</Trans>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
         <div className="col-md-8 col-sm-7">
           <div className="panel">
@@ -175,50 +225,39 @@ export function Component() {
             <div className="panel">
               <div className="panel-heading">
                 <h2>
-                  <Trans id="interface.premiumPage.you">You</Trans>
+                  <Trans id="interface.premiumPage.yourStatus">Your Status</Trans>
                 </h2>
               </div>
               <div className="panel-body pad">
-                <Trans id="interface.premiumPage.status">
-                  Hello {user.name}. Your Premium is currently{' '}
-                  {user.premium ? (
-                    <span className="text-success">
-                      {t({
-                        id: 'interface.premiumPage.status.active',
-                        message: `Active`,
-                      })}
-                    </span>
-                  ) : (
-                    <span className="text-danger">
-                      {t({
-                        id: 'interface.premiumPage.status.inactive',
-                        message: `Inactive`,
-                      })}
-                    </span>
-                  )}{' '}
-                  {user.patreon && user.patreon.premium
-                    ? ` ${t({
-                        id: 'interface.premiumPage.status.patreon',
-                        message: `because of your Patreonage`,
-                      })}`
-                    : null}{' '}
-                  {user.github && user.github.premium && user.github.expires
-                    ? ` ${t({
-                        id: 'interface.premiumPage.status.gitHub',
-                        message: `because of a recent GitHub contribution (active until ${new Date(user.github.expires).toLocaleDateString(import.meta.env.LOCALE)})`,
-                      })}`
-                    : null}
-                  .{' '}
-                  {user.premium
-                    ? t({
-                        id: 'interface.premiumPage.status.userHasPremium',
-                        message: `Awesome!`,
-                      })
-                    : t({
-                        id: 'interface.premiumPage.status.getPremium',
-                        message: `You can get Premium by becoming a Patron on Patreon or by making a contribution to application on GitHub. Try logging in again if you wish to refresh your status.`,
-                      })}
-                </Trans>
+                <p>
+                  <Trans id="interface.premiumPage.status">
+                    Hello {user.name}. Your Premium is currently{' '}
+                    {user.premium ? (
+                      <span className="text-success">
+                        {t({
+                          id: 'interface.premiumPage.status.active',
+                          message: `Active`,
+                        })}
+                      </span>
+                    ) : (
+                      <span className="text-danger">
+                        {t({
+                          id: 'interface.premiumPage.status.inactive',
+                          message: `Inactive`,
+                        })}
+                      </span>
+                    )}
+                    .
+                  </Trans>
+                </p>
+                <p>
+                  <Link to="/user">
+                    <Trans id="interface.premiumPage.manageAccountDetails">
+                      Visit your account page to manage linked accounts and view detailed
+                      subscription information.
+                    </Trans>
+                  </Link>
+                </p>
               </div>
             </div>
           )}
